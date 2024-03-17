@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.trip.map.model.mapper.MapMapper">
+
+	<resultMap type="sidoGugunCodeDto" id="sidoGugunCode">
+		<result column="sido_code" property="sidoCode"/>
+		<result column="sido_name" property="sidoName"/>
+		<result column="gugun_code" property="gugunCode"/>
+		<result column="gugun_name" property="gugunName"/>
+		<result column="content_type_id" property="contentTypeId"/>
+	</resultMap>
+
+	<resultMap type="attractionInfoDto" id="attractionInfo">
+		<result column="title" property="title"/>
+		<result column="content_id" property="contentId"/>
+		<result column="content_type_id" property="contentTypeId"/>
+		<result column="addr1" property="addr1"/>
+		<result column="addr2" property="addr2"/>
+		<result column="first_image" property="firstImage"/>
+		<result column="first_image2" property="firstImage2"/>
+		<result column="sido_code" property="sidoCode"/>
+		<result column="gugun_code" property="gugunCode"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="mlevel" property="mlevel"/>
+		<result column="readcount" property="readcount"/>
+		<result column="tel" property="tel"/>
+		<result column="zipcode" property="zipcode"/>
+	</resultMap>
+
+	<select id="getContentTypeId" resultMap="sidoGugunCode">
+		select distinct content_type_id
+		from attraction_info
+		order by content_type_id
+	</select>
+	
+	<select id="getSido" resultMap="sidoGugunCode">
+		select sido_code, sido_name
+		from sido
+		order by sido_code;
+	</select>
+	
+	<select id="getGugunInSido" parameterType="string" resultMap="sidoGugunCode">
+		select gugun_code, gugun_name
+		from gugun
+		where sido_code = #{sidoCode}
+		order by gugun_code
+	</select>
+	
+	<select id="getAttractionInfo" parameterType="string" resultMap="attractionInfo">
+		select content_id, content_type_id, title, addr1, addr2,
+				first_image, first_image2, sido_code, gugun_code, latitude, longitude,
+				mlevel, readcount, tel, zipcode
+		from attraction_info
+		where content_type_id = #{contentTypeId} and sido_code = #{sidoCode} and gugun_code = #{gugunCode}
+		order by gugun_code
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
